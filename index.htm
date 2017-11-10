@@ -1,0 +1,195 @@
+<html dir="rtl" ng-app="timeOutApp">
+<head>
+    <title>Timeout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+
+    <meta property="og:title" content="כמה הטרדות מיניות עברת היום?"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="https://timeouttlv-metoo.github.io/images/preview.png"/>
+    <meta property="og:image:secure_url" content="https://timeouttlv-metoo.github.io/images/preview.png"/>
+    <meta property="og:url" content="https://timeouttlv-metoo.github.io/"/>
+    <meta property="og:site_name" content="Timeout TLV #metoo"/>
+    <meta property="og:description" content="Timeout TLV #metoo"/>
+    <meta property="fb:admins" content="johndoe"/>
+    <meta name="description" content="Timeout TLV #metoo"/>
+
+    <meta name="twitter:title" content="כמה הטרדות מיניות עברת היום?">
+    <meta name="twitter:description" content="Timeout TLV #metoo">
+    <meta name="twitter:image" content="https://timeouttlv-metoo.github.io/images/preview.png">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <style>
+        @import url(https://fonts.googleapis.com/earlyaccess/alefhebrew.css);
+
+        body {
+            text-align: right;
+            font-family: "Alef Hebrew",
+            “Helvetica Neue”,
+            Helvetica,
+            Arial,
+            sans-serif;
+        }
+
+        .logo-wrapper {
+            border-top: 5px black solid;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .logo {
+            max-height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        .row-container {
+            margin-left: 5%;
+            margin-right: 5%
+        }
+
+        .item-wrapper {
+            text-align: center;
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-wrapper {
+            text-align: center;
+            width: 100%;
+            clear: both;
+        }
+
+        .item-text {
+            margin-right: 20%;
+            margin-left: 20%;
+            text-align: center;
+            font-size: 1.5rem;
+            /*transform: translateY(+60%);*/
+        }
+
+        input[type=checkbox] {
+            display: none;
+            cursor: pointer;
+        }
+
+        input[type=checkbox] + label {
+            content: ".";
+            cursor: pointer;
+            background: white;
+            border: 2px black solid;
+            /*padding-top:10%;*/
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            padding: 0 0 0 0px;
+        }
+
+        input[type=checkbox]:checked + label {
+            background: url("images/checkmark.png") no-repeat;
+            background-size: 100%;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+        }
+
+        .score {
+            width: 50px;
+            bottom: 0;
+            float: right;
+            color: white;
+            position: absolute;
+            text-align: center;
+            background-color: red;
+            font-size: 2rem;
+        }
+
+        .fb-share {
+            bottom: 0;
+            left: 0;
+            float: left;
+            position: absolute;
+        }
+
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-meta/1.0.2/ngMeta.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-controller="mainController">
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11';
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="logo-wrapper">
+                <img class="logo" src="images/logo.png"/></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="title">כמה הטרדות מיניות עברת היום?</div>
+        </div>
+    </div>
+    <div class="row-container">
+        <div class="row" ng-repeat="row in dataByRow">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6" ng-repeat="item in row">
+                <div class="item-wrapper">
+                    <div class="checkbox-wrapper">
+                        <input type='checkbox' ng-change="checkItem(item.idx)" ng-model="item.checked"
+                               name='checkbox_{{item.idx}}'
+                               id="checkbox_{{item.idx}}"/><label for="checkbox_{{item.idx}}"></label>
+                    </div>
+                    <div class="item-text">{{item.question}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="score">
+        {{totalScore}}
+    </div>
+    <div class="fb-share">
+        <div class="fb-share-button" data-href="https://timeouttlv-metoo.github.io/" data-layout="button_count"
+             data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank"
+                                                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftimeouttlv-metoo.github.io%2F&amp;src=sdkpreparse">Share</a>
+        </div>
+    </div>
+</footer>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
